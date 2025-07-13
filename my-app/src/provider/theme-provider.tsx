@@ -30,23 +30,33 @@ export function ThemeProvider({
     () => (localStorage.getItem(storageKey) as Theme) || defaultTheme
   );
 
-  useEffect(() => {
+  const applyTheme = (resolvedTheme: "light" | "dark") => {
     const root = window.document.documentElement;
     root.classList.remove("light", "dark");
+    root.classList.add(resolvedTheme);
+  };
 
-    const applyTheme = (resolvedTheme: "light" | "dark") => {
-      root.classList.add(resolvedTheme);
-    };
+  // Function to detect time-based theme
+  const getTimeBasedTheme = (): "light" | "dark" => {
+    const hour = new Date().getHours();
+    return hour >= 6 && hour < 18 ? "light" : "dark"; // 6 AM - 6 PM = light, else dark
+  };
 
+  useEffect(() => {
     if (theme === "system") {
-      const now = new Date();
-      const hour = now.getHours();
+      const currentTheme = getTimeBasedTheme();
+      applyTheme(currentTheme);
 
-      // Morning (6 AM – 6 PM) = dark, Evening/Night (6 PM – 6 AM) = light
-      const timeBasedTheme: "light" | "dark" =
-        hour >= 6 && hour < 18 ? "dark" : "light";
+      // Auto update every minute
+      const interval = setInterval(() => {
+        const updatedTheme = getTimeBasedTheme();
+        const root = document.documentElement;
+        if (!root.classList.contains(updatedTheme)) {
+          applyTheme(updatedTheme);
+        }
+      }, 60 * 1000); // every 1 minute
 
-      applyTheme(timeBasedTheme);
+      return () => clearInterval(interval);
     } else {
       applyTheme(theme);
     }
