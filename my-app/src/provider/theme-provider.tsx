@@ -32,20 +32,24 @@ export function ThemeProvider({
 
   useEffect(() => {
     const root = window.document.documentElement;
-
     root.classList.remove("light", "dark");
 
+    const applyTheme = (resolvedTheme: "light" | "dark") => {
+      root.classList.add(resolvedTheme);
+    };
+
     if (theme === "system") {
-      const systemTheme = window.matchMedia("(prefers-color-scheme: dark)")
-        .matches
-        ? "dark"
-        : "light";
+      const now = new Date();
+      const hour = now.getHours();
 
-      root.classList.add(systemTheme);
-      return;
+      // Morning (6 AM – 6 PM) = dark, Evening/Night (6 PM – 6 AM) = light
+      const timeBasedTheme: "light" | "dark" =
+        hour >= 6 && hour < 18 ? "dark" : "light";
+
+      applyTheme(timeBasedTheme);
+    } else {
+      applyTheme(theme);
     }
-
-    root.classList.add(theme);
   }, [theme]);
 
   const value = {
@@ -65,9 +69,7 @@ export function ThemeProvider({
 
 export const useTheme = () => {
   const context = useContext(ThemeProviderContext);
-
   if (context === undefined)
     throw new Error("useTheme must be used within a ThemeProvider");
-
   return context;
 };
