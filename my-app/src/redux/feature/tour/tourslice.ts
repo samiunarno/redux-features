@@ -1,8 +1,11 @@
 import type { ITour } from "@/interface.types";
+import type { RootState } from "@/redux/store";
 
 import { createSlice } from "@reduxjs/toolkit";
 
+
 interface InitialState {
+  [x: string]: unknown;
   tour: ITour[];
 }
 const initialState: InitialState = {
@@ -31,5 +34,9 @@ const todoSlice = createSlice({
   initialState,
   reducers: {},
 });
+
+export const selectTasks = (state : RootState) => {
+  return state.todo.tour
+};
 
 export default todoSlice.reducer;

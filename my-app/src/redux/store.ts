@@ -5,7 +5,7 @@ import tourReducer from "./feature/tour/tourslice";
 export const store = configureStore({
   reducer: {
     counter: counterReducer,
-    tour: tourReducer,
+    todo: tourReducer,
   },
 });
 

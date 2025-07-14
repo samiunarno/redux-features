@@ -1,4 +1,10 @@
+import { useAppSelector } from "@/redux/hook";
+
 export default function Tour() {
+
+  const tasks = useAppSelector((state) => state.todo.tasks);
+
+  console.log(tasks);
   return (
     <section className="min-h-[500px] min-w-0.5 flex items-center justify-start bg-white dark:bg-black px-6 md:px-10 overflow-hidden">
       <div className="text-center max-w-2xl ml-45">

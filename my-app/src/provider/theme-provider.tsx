@@ -36,10 +36,15 @@ export function ThemeProvider({
     root.classList.add(resolvedTheme);
   };
 
-  // Function to detect time-based theme
+  // Updated function to match your new logic
   const getTimeBasedTheme = (): "light" | "dark" => {
     const hour = new Date().getHours();
-    return hour >= 6 && hour < 18 ? "light" : "dark"; // 6 AM - 6 PM = light, else dark
+
+    if ((hour >= 6 && hour <= 12) || (hour >= 18 || hour < 6)) {
+      return "light"; // 6AM–1PM and 6PM–6AM
+    } else {
+      return "dark"; // 2PM–5PM
+    }
   };
 
   useEffect(() => {
@@ -47,14 +52,13 @@ export function ThemeProvider({
       const currentTheme = getTimeBasedTheme();
       applyTheme(currentTheme);
 
-      // Auto update every minute
       const interval = setInterval(() => {
         const updatedTheme = getTimeBasedTheme();
         const root = document.documentElement;
         if (!root.classList.contains(updatedTheme)) {
           applyTheme(updatedTheme);
         }
-      }, 60 * 1000); // every 1 minute
+      }, 60 * 1000); // every minute
 
       return () => clearInterval(interval);
     } else {
