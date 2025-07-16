@@ -3,16 +3,26 @@ import TaskCard from "@/components/module/task/taskcard";
 import { useAppSelector } from "@/redux/hook";
 import { selectTasks } from "@/redux/feature/tour/tourslice";
 import { AddTaskModal } from "@/components/module/task/AddTaskModale";
+import { Trash2 } from "lucide-react";
 
 export default function Tasks() {
   const tasks = useAppSelector(selectTasks); // now using correct selector
 
   return (
     <div className="mx-auto max-w-7xl px-5 mt-20">
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-semibold text-gray-800">Tasks</h1>
+      <div className="flex justify-between items-center ">
+        <h1 className="text-3xl font-semibold ">Tasks</h1>
 
-        <AddTaskModal/>
+        <div className="flex items-center gap-4">
+
+          <AddTaskModal/>
+        <Trash2/>
+
+
+        </div>
+
+        
+        
       </div>
 
       <div className="space-y-5 mt-5">
