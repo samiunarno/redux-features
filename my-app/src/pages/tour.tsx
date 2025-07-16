@@ -17,12 +17,7 @@ export default function Tasks() {
 
           <AddTaskModal/>
         <Trash2/>
-
-
         </div>
-
-        
-        
       </div>
 
       <div className="space-y-5 mt-5">

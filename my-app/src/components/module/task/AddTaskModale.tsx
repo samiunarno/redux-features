@@ -1,3 +1,6 @@
+"use client"
+
+import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -11,49 +14,97 @@ import {
 } from "@/components/ui/dialog"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+
 export function AddTaskModal() {
+  const [formData, setFormData] = useState({
+    bookName: "",
+    isbn: "",
+    writer: "",
+    copies: "",
+  })
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    setFormData((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    console.log("📘 Submitted data:", formData)
+  }
+
   return (
     <Dialog>
-      <form>
-        <DialogTrigger asChild>
-          <Button>Add Task</Button>
-        </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
+      <DialogTrigger asChild>
+        <Button variant="default">Add Task</Button>
+      </DialogTrigger>
+
+      <DialogContent className="sm:max-w-[500px]">
+        <form onSubmit={handleSubmit} className="space-y-6">
           <DialogHeader>
-            <DialogTitle>Add a New Task</DialogTitle>
+            <DialogTitle>Add a New Book</DialogTitle>
             <DialogDescription>
-              Make changes to your profile here. Click save when you&apos;re
-              done.
+              Fill in the details below and click submit to add the book.
             </DialogDescription>
           </DialogHeader>
-          <div className="grid gap-4">
-            <div className="grid gap-3">
-              <Label htmlFor="name-1">Book name : </Label>
-              <Input id="name-1" name="name" defaultValue="" />
-            </div>
-            <div className="grid gap-3">
-              <Label htmlFor="username-1">ISBN</Label>
-              <Input id="username-1" name="username" defaultValue="" />
+
+          <div className="grid gap-4 py-4">
+            <div className="grid gap-2">
+              <Label htmlFor="bookName">Book Name</Label>
+              <Input
+                id="bookName"
+                name="bookName"
+                placeholder="Enter book name"
+                value={formData.bookName}
+                onChange={handleChange}
+              />
             </div>
 
-            <div className="grid gap-3">
-              <Label htmlFor="username-1">Writer</Label>
-              <Input id="writer" name="writer" defaultValue="" />
+            <div className="grid gap-2">
+              <Label htmlFor="isbn">ISBN</Label>
+              <Input
+                id="isbn"
+                name="isbn"
+                placeholder="Enter ISBN number"
+                value={formData.isbn}
+                onChange={handleChange}
+              />
             </div>
 
-            <div className="grid gap-3">
-              <Label htmlFor="username-1">Copies</Label>
-              <Input id="Copies" name="Copies" defaultValue="" />
+            <div className="grid gap-2">
+              <Label htmlFor="writer">Writer</Label>
+              <Input
+                id="writer"
+                name="writer"
+                placeholder="Enter writer's name"
+                value={formData.writer}
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="grid gap-2">
+              <Label htmlFor="copies">Number of Copies</Label>
+              <Input
+                id="copies"
+                name="copies"
+                type="number"
+                placeholder="Enter number of copies"
+                value={formData.copies}
+                onChange={handleChange}
+              />
             </div>
           </div>
+
           <DialogFooter>
             <DialogClose asChild>
-              <Button variant="outline">Cancel</Button>
+              <Button type="button" variant="outline">
+                Cancel
+              </Button>
             </DialogClose>
             <Button type="submit">Submit</Button>
           </DialogFooter>
-        </DialogContent>
-      </form>
+        </form>
+      </DialogContent>
     </Dialog>
   )
 }
