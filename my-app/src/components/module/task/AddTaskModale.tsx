@@ -40,9 +40,14 @@ export function AddTaskModal() {
   }
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    console.log("📘 Submitted data:", formData)
-  }
+  e.preventDefault()
+  console.log("📘 Submitted data:", {
+    ...formData,
+    publicationDate:
+      formData.publicationDate?.toLocaleDateString() || "No date selected",
+  })
+}
+
 
   return (
     <Dialog>
