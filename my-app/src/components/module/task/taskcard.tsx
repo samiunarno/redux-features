@@ -24,7 +24,7 @@ export default function TaskCard({ task }: TaskCardProps) {
       <div>
         <div className="flex items-center gap-2">
           <div className= {cn("size-3 rounded-full",{
-            "bg-green-500": task.priority === "Low",
+            "bg-red-500": task.priority === "Low",
             "bg-yellow-500": task.priority=== "Medium",
             "bg-blue-500" : task.priority === "High"
           })}>
