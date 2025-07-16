@@ -28,12 +28,22 @@ export function AddTaskModal() {
           </DialogHeader>
           <div className="grid gap-4">
             <div className="grid gap-3">
-              <Label htmlFor="name-1">Name</Label>
+              <Label htmlFor="name-1">Book name : </Label>
               <Input id="name-1" name="name" defaultValue="" />
             </div>
             <div className="grid gap-3">
-              <Label htmlFor="username-1">Username</Label>
+              <Label htmlFor="username-1">ISBN</Label>
               <Input id="username-1" name="username" defaultValue="" />
+            </div>
+
+            <div className="grid gap-3">
+              <Label htmlFor="username-1">Writer</Label>
+              <Input id="writer" name="writer" defaultValue="" />
+            </div>
+
+            <div className="grid gap-3">
+              <Label htmlFor="username-1">Copies</Label>
+              <Input id="Copies" name="Copies" defaultValue="" />
             </div>
           </div>
           <DialogFooter>
