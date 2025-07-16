@@ -15,13 +15,24 @@ import {
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 
+import { Calendar } from "@/components/ui/calender"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import { ChevronDownIcon } from "lucide-react"
+
 export function AddTaskModal() {
   const [formData, setFormData] = useState({
     bookName: "",
     isbn: "",
     writer: "",
     copies: "",
+    publicationDate: undefined as Date | undefined,
   })
+
+  const [calendarOpen, setCalendarOpen] = useState(false)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -49,6 +60,7 @@ export function AddTaskModal() {
           </DialogHeader>
 
           <div className="grid gap-4 py-4">
+            {/* Book Name */}
             <div className="grid gap-2">
               <Label htmlFor="bookName">Book Name</Label>
               <Input
@@ -60,6 +72,7 @@ export function AddTaskModal() {
               />
             </div>
 
+            {/* ISBN */}
             <div className="grid gap-2">
               <Label htmlFor="isbn">ISBN</Label>
               <Input
@@ -71,6 +84,7 @@ export function AddTaskModal() {
               />
             </div>
 
+            {/* Writer */}
             <div className="grid gap-2">
               <Label htmlFor="writer">Writer</Label>
               <Input
@@ -82,6 +96,7 @@ export function AddTaskModal() {
               />
             </div>
 
+            {/* Number of Copies */}
             <div className="grid gap-2">
               <Label htmlFor="copies">Number of Copies</Label>
               <Input
@@ -92,6 +107,37 @@ export function AddTaskModal() {
                 value={formData.copies}
                 onChange={handleChange}
               />
+            </div>
+
+            {/* Publication Date - Calendar Field */}
+            <div className="grid gap-2">
+              <Label htmlFor="publicationDate">Publication Date</Label>
+              <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
+                <PopoverTrigger asChild open={calendarOpen} onOpenChange={setCalendarOpen}>
+                  <Button
+                    variant="outline"
+                    id="publicationDate"
+                    className="w-48 justify-between font-normal"
+                    type="button"
+                  >
+                    {formData.publicationDate
+                      ? formData.publicationDate.toLocaleDateString()
+                      : "Select date"}
+                    <ChevronDownIcon />
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent open={calendarOpen} className="w-auto overflow-hidden p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={formData.publicationDate}
+                    captionLayout="dropdown"
+                    onSelect={(date) => {
+                      setFormData((prev) => ({ ...prev, publicationDate: date }))
+                      setCalendarOpen(false)
+                    }}
+                  />
+                </PopoverContent>
+              </Popover>
             </div>
           </div>
 
