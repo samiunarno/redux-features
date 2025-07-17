@@ -11,7 +11,7 @@ export const store = configureStore({
   },
 });
 
-// console.log(tourReducer);
+console.log(tourReducer);
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
