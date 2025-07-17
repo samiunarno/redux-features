@@ -73,7 +73,7 @@ export function Calendar({
           <select
             value={month}
             onChange={(e) => setMonth(Number(e.target.value))}
-            className="border rounded px-2 py-1 bg-white text-gray-900 dark:bg-gray-700 dark:text-gray-100"
+            className="border rounded px-1 py-1 bg-white text-gray-900 dark:bg-gray-700 dark:text-gray-100"
           >
             {months.map((name, i) => (
               <option key={i} value={i}>
@@ -84,7 +84,7 @@ export function Calendar({
           <select
             value={year}
             onChange={(e) => setYear(Number(e.target.value))}
-            className="border rounded px-2 py-1 bg-white text-gray-900 dark:bg-gray-700 dark:text-gray-100"
+            className=" py-1 bg-white text-gray-900 dark:bg-gray-700 dark:text-gray-100"
           >
             {years.map((y) => (
               <option key={y} value={y}>
@@ -154,8 +154,8 @@ export function Calendar({
           const d = i + 1
           const dateObj = new Date(year, month, d)
           const selectedClass = isSameDay(selected, dateObj)
-            ? "bg-blue-600 text-white rounded dark:bg-blue-500 dark:text-white"
-            : "hover:bg-blue-100 cursor-pointer rounded dark:hover:bg-blue-700 dark:text-gray-300"
+            ? "bg-blue-600 text-white rounded-sm dark:bg-blue-500 dark:text-white"
+            : " cursor-pointer text-gray-900 dark:text-gray-300"
 
           return (
             <div
