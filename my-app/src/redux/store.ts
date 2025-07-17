@@ -1,13 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 import tourReducer from "./feature/tour/tourslice";
-import taskReducer from "./feature/task/taskSlice";
+
 
 export const store = configureStore({
   reducer: {
     
     todo: tourReducer,
-    Tasks : taskReducer,
+
   },
 });
 

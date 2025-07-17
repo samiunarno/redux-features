@@ -65,8 +65,6 @@ export function AddTaskModal() {
             </DialogDescription>
           </DialogHeader>
 
-          <Form {...form}></Form>
-
           <div className="grid gap-4 py-4">
             {/* Book Name */}
             <div className="grid gap-2">
@@ -84,18 +82,18 @@ export function AddTaskModal() {
 
 
             <div className="grid gap-2">
-              <Label htmlFor="copies">Description</Label>
-              <textarea
-                id="description"
-                name="description"
-                type="string"
-                placeholder="Description"
-                value={formData.description}
-                onChange={handleChange}
-                rows={4}
-                className="border border-white-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2  dark:text-white"
-              />
-            </div>
+  <Label htmlFor="description">Description</Label>
+  <textarea
+    id="description"
+    name="description"
+    placeholder="Enter description here..."
+    value={formData.description}
+    onChange={handleChange}
+    rows={4}
+    className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-900 dark:text-white"
+  />
+</div>
+
 
             {/* ISBN */}
             <div className="grid gap-2">

@@ -3,6 +3,7 @@ import App from "@/App";
 import User from "@/pages/user";
 import Tour from "@/pages/tour";
 
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -18,6 +19,8 @@ const router = createBrowserRouter([
         path: "tour",
         Component: Tour,
       },
+
+      
     ],
   },
 ]);
