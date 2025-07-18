@@ -1,4 +1,3 @@
-
 import * as React from "react"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
@@ -27,7 +26,6 @@ import {
   FormLabel,
   FormControl,
 } from "@/components/ui/form"
-import { ChevronDownIcon } from "lucide-react"
 import { format } from "date-fns"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -36,6 +34,10 @@ const formSchema = z.object({
   bookName: z.string().min(1, "Book name is required"),
   writer: z.string().min(1, "Writer name is required"),
   publicationDate: z.date().optional(),
+  description: z.string().min(1, "Description is required"),
+  priority: z.enum(["Low", "Medium", "High"], {
+    message: "Priority is required and must be Low, Medium, or High",
+  }),
 })
 
 type FormData = z.infer<typeof formSchema>
@@ -49,6 +51,8 @@ export function AddTaskModal() {
       bookName: "",
       writer: "",
       publicationDate: undefined,
+      description: "",
+      priority: "Medium",
     },
   })
 
@@ -59,6 +63,8 @@ export function AddTaskModal() {
         ? format(data.publicationDate, "dd/MM/yyyy")
         : "No date selected",
     })
+
+    form.reset()
   }
 
   return (
@@ -71,9 +77,7 @@ export function AddTaskModal() {
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <DialogHeader>
               <DialogTitle>Add a New Book</DialogTitle>
-              <DialogDescription>
-                Fill in the details and submit.
-              </DialogDescription>
+              <DialogDescription>Fill in the details and submit.</DialogDescription>
             </DialogHeader>
 
             {/* Book Name */}
@@ -81,7 +85,7 @@ export function AddTaskModal() {
               control={form.control}
               name="bookName"
               render={({ field }) => (
-                <FormItem>
+                <FormItem className="flex flex-col">
                   <FormLabel>Book Name</FormLabel>
                   <FormControl>
                     <Input placeholder="Enter book name" {...field} />
@@ -104,7 +108,7 @@ export function AddTaskModal() {
               )}
             />
 
-            {/* Publication Date */}
+            {/* Publication Date with Arrow */}
             <FormField
               control={form.control}
               name="publicationDate"
@@ -113,18 +117,29 @@ export function AddTaskModal() {
                   <FormLabel>Publication Date</FormLabel>
                   <Popover open={calendarOpen} onOpenChange={setCalendarOpen}>
                     <PopoverTrigger asChild>
-                      <Button
-                        variant="outline"
-                        className={`w-full justify-between text-left ${
-                          !field.value ? "text-muted-foreground" : ""
-                        }`}
-                        type="button"
-                      >
-                        {field.value
-                          ? format(field.value, "PPP")
-                          : "Select date"}
-                        <ChevronDownIcon className="ml-2 h-4 w-4 opacity-50" />
-                      </Button>
+                      <div className="relative">
+                        <Button
+                          variant="outline"
+                          className={`w-full justify-between text-left pr-10 ${
+                            !field.value ? "text-muted-foreground" : ""
+                          }`}
+                          type="button"
+                        >
+                          {field.value ? format(field.value, "PPP") : "Select date"}
+                        </Button>
+                        <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center">
+                          <svg
+                            className="w-4 h-4 text-black"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth={2}
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </div>
+                      </div>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
                       <Calendar
@@ -142,13 +157,77 @@ export function AddTaskModal() {
               )}
             />
 
-            <DialogFooter>
+            {/* Description */}
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Description</FormLabel>
+                  <FormControl>
+                    <textarea
+                      placeholder="Enter description"
+                      className="w-full rounded-md border border-gray-300 px-3 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      rows={4}
+                      {...field}
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+
+            {/* Priority with Arrow */}
+            <FormField
+              control={form.control}
+              name="priority"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Priority</FormLabel>
+                  <FormControl>
+                    <div className="relative">
+                      <select
+                        {...field}
+                        className="w-full appearance-none rounded-md border border-gray-300 px-3 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      >
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                      </select>
+                      <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center">
+                        <svg
+                          className="w-4 h-4 text-black"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth={2}
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </div>
+                    </div>
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+
+            {/* Footer Buttons */}
+            <DialogFooter className="flex justify-center gap-x-4">
               <DialogClose asChild>
-                <Button type="button" variant="outline">
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="px-6 py-6 h-8 w-[100px] text-base mt-4"
+                >
                   Cancel
                 </Button>
               </DialogClose>
-              <Button type="submit">Submit</Button>
+              <Button
+                type="submit"
+                className="px-6 py-6 h-8 w-[100px] text-base mt-4"
+              >
+                Submit
+              </Button>
             </DialogFooter>
           </form>
         </Form>
