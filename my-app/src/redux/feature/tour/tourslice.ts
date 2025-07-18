@@ -1,54 +1,44 @@
-import type { ITour } from "@/interface.types";
 import type { RootState } from "@/redux/store";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+// import { v4 as uuidv4 } from "uuid";
 
-import { createSlice } from "@reduxjs/toolkit";
-
+export interface ITour {
+  id: string;
+  bookName: string;
+  writer: string;
+  publicationDate?: string;
+  description: string;
+  priority: "Low" | "Medium" | "High";
+  // Add this if you want to track completion status:
+  // isCompleted?: boolean;
+}
 
 interface InitialState {
-  [x: string]: unknown;
   tour: ITour[];
 }
-const initialState: InitialState = {
-  tour: [
-    {
-      id: "1234234",
-      title: "These is a New Task",
-      description: "Create Home Routes",
-      dueDate: "2025-11",
-      isCompleted: false,
-      priority: "High",
-    },
-    {
-      id: "9876543",
-      title: "Landing Page Design",
-      description: "Design a responsive landing page for the new product",
-      dueDate: "2025-08",
-      isCompleted: true,
-      priority: "Low",
-    },
-    {
-      id: "9876544",
-      title: "UI/UX Design",
-      description: "Design a responsive landing page for the new product",
-      dueDate: "2025-08",
-      isCompleted: true,
-      priority: "Medium",
-    }
 
-    
-  ],
+const initialState: InitialState = {
+  tour: [],
 };
 
 const taskSlice = createSlice({
   name: "tour",
   initialState,
-  reducers: {},
+  reducers: {
+    addtour: (state,action: PayloadAction<ITour>)=>{
+      const id = "sdfgfdgdfgdfgdf";
+      const taskData = {
+        ...action.payload,
+        id,
+        isCompleted: false,
+      };
+      state.tour.push(taskData)
+    }
+  },
 });
 
-export const selectTasks = (state : RootState) => {
-  return state.todo.tour
-};
+export const { addtour } = taskSlice.actions;
 
-
+export const selectTasks = (state: RootState) => state.todo.tour; // Note: your slice is named "tour" so root state key should match
 
 export default taskSlice.reducer;
