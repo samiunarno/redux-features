@@ -72,6 +72,7 @@ export function AddTaskModal() {
         ...data,
         publicationDate: formattedDate,
         id: uuidv4(),
+        completed: false
       })
     );
 
