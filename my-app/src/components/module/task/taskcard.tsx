@@ -14,6 +14,8 @@ export default function TaskCard({ task }: TaskCardProps) {
   return (
     <div className="border rounded-md p-4 shadow-md bg-white">
       <h2 className="text-xl font-semibold">{task.bookName}</h2>
+      <p className="text-xs text-gray-600">ID : {task.id}</p>
+
       <p className="text-sm text-gray-600">Writer: {task.writer}</p>
       {task.publicationDate && (
         <p className="text-sm text-gray-500">

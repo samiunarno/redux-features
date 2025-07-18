@@ -1,16 +1,13 @@
-import type { RootState } from "@/redux/store";
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
-// import { v4 as uuidv4 } from "uuid";
+import type { RootState } from "@/redux/store";
 
 export interface ITour {
   id: string;
   bookName: string;
   writer: string;
-  publicationDate?: string;
+  publicationDate?: string | undefined;
   description: string;
   priority: "Low" | "Medium" | "High";
-  // Add this if you want to track completion status:
-  // isCompleted?: boolean;
 }
 
 interface InitialState {
@@ -25,20 +22,18 @@ const taskSlice = createSlice({
   name: "tour",
   initialState,
   reducers: {
-    addtour: (state,action: PayloadAction<ITour>)=>{
-      const id = "sdfgfdgdfgdfgdf";
-      const taskData = {
-        ...action.payload,
-        id,
-        isCompleted: false,
-      };
-      state.tour.push(taskData)
-    }
+    addtour: (state, action: PayloadAction<ITour>) => {
+      state.tour.push(action.payload);
+    },
   },
 });
 
-export const { addtour } = taskSlice.actions;
 
-export const selectTasks = (state: RootState) => state.todo.tour; // Note: your slice is named "tour" so root state key should match
+
+export const { addtour } = taskSlice.actions;
+export const selectTasks = (state: RootState) => {
+  return state.todo.tour;
+
+}
 
 export default taskSlice.reducer;

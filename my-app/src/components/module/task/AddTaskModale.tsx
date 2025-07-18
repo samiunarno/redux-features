@@ -1,6 +1,8 @@
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { v4 as uuidv4 } from "uuid";
 
-import { useState } from "react"
-import { useForm } from "react-hook-form"
 import {
   Dialog,
   DialogTrigger,
@@ -10,25 +12,27 @@ import {
   DialogDescription,
   DialogFooter,
   DialogClose,
-} from "@/components/ui/dialog"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Popover,
   PopoverTrigger,
   PopoverContent,
-} from "@/components/ui/popover"
-import { Calendar } from "@/components/ui/calendar"
+} from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Form,
   FormField,
   FormItem,
   FormLabel,
   FormControl,
-} from "@/components/ui/form"
-import { format } from "date-fns"
-import { z } from "zod"
-import { zodResolver } from "@hookform/resolvers/zod"
+} from "@/components/ui/form";
+import { format } from "date-fns";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import { addtour } from "@/redux/feature/tour/tourslice";
 
 const formSchema = z.object({
   bookName: z.string().min(1, "Book name is required"),
@@ -38,12 +42,13 @@ const formSchema = z.object({
   priority: z.enum(["Low", "Medium", "High"], {
     message: "Priority is required and must be Low, Medium, or High",
   }),
-})
+});
 
-type FormData = z.infer<typeof formSchema>
+type FormData = z.infer<typeof formSchema>;
 
 export function AddTaskModal() {
-  const [calendarOpen, setCalendarOpen] = useState(false)
+  const [calendarOpen, setCalendarOpen] = useState(false);
+  const dispatch = useDispatch();
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -54,18 +59,25 @@ export function AddTaskModal() {
       description: "",
       priority: "Medium",
     },
-  })
+  });
 
   const onSubmit = (data: FormData) => {
-    console.log("📘 Submitted data:", {
-      ...data,
-      publicationDate: data.publicationDate
-        ? format(data.publicationDate, "dd/MM/yyyy")
-        : "No date selected",
-    })
+    // Format publicationDate to string or undefined
+    const formattedDate = data.publicationDate
+      ? format(data.publicationDate, "yyyy-MM-dd")
+      : undefined;
 
-    form.reset()
-  }
+    dispatch(
+      addtour({
+        ...data,
+        publicationDate: formattedDate,
+        id: uuidv4(),
+      })
+    );
+
+    form.reset();
+    setCalendarOpen(false);
+  };
 
   return (
     <Dialog>
@@ -108,7 +120,7 @@ export function AddTaskModal() {
               )}
             />
 
-            {/* Publication Date with Arrow */}
+            {/* Publication Date */}
             <FormField
               control={form.control}
               name="publicationDate"
@@ -146,8 +158,8 @@ export function AddTaskModal() {
                         mode="single"
                         selected={field.value}
                         onSelect={(date) => {
-                          field.onChange(date)
-                          setCalendarOpen(false)
+                          field.onChange(date);
+                          setCalendarOpen(false);
                         }}
                         captionLayout="dropdown"
                       />
@@ -176,7 +188,7 @@ export function AddTaskModal() {
               )}
             />
 
-            {/* Priority with Arrow */}
+            {/* Priority */}
             <FormField
               control={form.control}
               name="priority"
@@ -211,7 +223,6 @@ export function AddTaskModal() {
               )}
             />
 
-            {/* Footer Buttons */}
             <DialogFooter className="flex justify-center gap-x-4">
               <DialogClose asChild>
                 <Button
@@ -222,10 +233,7 @@ export function AddTaskModal() {
                   Cancel
                 </Button>
               </DialogClose>
-              <Button
-                type="submit"
-                className="px-6 py-6 h-8 w-[100px] text-base mt-4"
-              >
+              <Button type="submit" className="px-6 py-6 h-8 w-[100px] text-base mt-4">
                 Submit
               </Button>
             </DialogFooter>
@@ -233,5 +241,5 @@ export function AddTaskModal() {
         </Form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }
