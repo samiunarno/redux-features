@@ -50,7 +50,7 @@ const taskSlice = createSlice({
       state.tour =  state.tour.filter((task) => task.id !== action.payload)
     },
 
-    updateFilters : (state, action: PayloadAction<"low" | "medium" | "high">) => {
+    updateFilters : (state, action: PayloadAction<"all" | "low" | "medium" | "high">) => {
       state.filter = action.payload;
     },
 
@@ -59,10 +59,24 @@ const taskSlice = createSlice({
 });
 
 // Actions export
-export const { addtour, toggleCompleteState , deleteTask } = taskSlice.actions;
+export const { addtour, toggleCompleteState , deleteTask, updateFilters } = taskSlice.actions;
 
 // Selector export
-export const selectTasks = (state: RootState) => state.todo.tour;
+export const selectTasks = (state: RootState) => {
+  const filter = state.todo.filter;
+
+  if(filter === "low"){
+    return state.todo.tour.filter((task) => task.priority ==="Low")
+  }
+  else if (filter === "medium"){
+    return state.todo.tour.filter((task) => task.priority=== "Medium")
+  }
+  else if (filter === "high"){
+    return state.todo.tour.filter((task) => task.priority=== "High")
+  }
+
+  return state.todo.tour
+}
 
 export const selectFilter = (state: RootState) => state.todo.filter;
 

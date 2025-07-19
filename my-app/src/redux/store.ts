@@ -1,12 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 
 import tourReducer from "./feature/tour/tourslice";
+import  userReducer  from "./feature/tour/userSlice";
 
 
 export const store = configureStore({
   reducer: {
     
     todo: tourReducer,
+    user: userReducer,
 
   },
 });
