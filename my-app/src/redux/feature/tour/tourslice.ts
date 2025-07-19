@@ -21,9 +21,28 @@ interface InitialState {
 
 const initialState: InitialState = {
   tour: [
+    {
+      id: "1",
+      bookName: "The Great Gatsby",
+      writer: "F. Scott Fitzgerald",
+      publicationDate: "1925-04-10",
+      description: "A novel about the American dream.",
+      priority: "High",
+      completed: false
+    },
+    {
+      id: "1",
+      bookName: "The Great Gatsby",
+      writer: "F. Scott Fitzgerald",
+      publicationDate: "1925-04-10",
+      description: "A novel about the American dream.",
+      priority: "High",
+      completed: false
+    }
   ],
-  filter : "all"
+  filter: "all"
 };
+
 
 const taskSlice = createSlice({
   name: "tour",
