@@ -69,7 +69,13 @@ const taskSlice = createSlice({
 export const { addtour, toggleCompleteState } = taskSlice.actions;
 
 // Selector export
-export const selectTasks = (state: RootState) => state.todo.tour;
+export const selectTasks = (state: RootState) =>{
+  return state.todo.tour;
+} 
+
+export const selectFilter = (state:RootState) => {
+  return state.todo.filter
+}
 
 // Reducer export
 export default taskSlice.reducer;
