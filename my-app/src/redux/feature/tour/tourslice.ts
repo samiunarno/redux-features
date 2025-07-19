@@ -44,6 +44,8 @@ const initialState: InitialState = {
 };
 
 
+
+
 const taskSlice = createSlice({
   name: "tour",
   initialState,
@@ -53,7 +55,6 @@ const taskSlice = createSlice({
       state.tour.push(action.payload);
     },
 
-    // ট্যুরের completed স্টেট টগল করা
     toggleCompleteState(state, action: PayloadAction<string>) {
       const id = action.payload;
       const tour = state.tour.find((t) => t.id === id);
