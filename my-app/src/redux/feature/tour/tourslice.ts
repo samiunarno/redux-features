@@ -17,7 +17,8 @@ const initialState: InitialState = {
       description: "Create task management with Redux Toolkit",
       dueDate: "2025-07-20",
       priority: "High",
-      isCompleted: false,
+      isCompleted: true,
+      bookName: ""
     },
     {
       id: "2",
@@ -25,7 +26,8 @@ const initialState: InitialState = {
       description: "Understand advanced TypeScript types",
       dueDate: "2025-07-25",
       priority: "Medium",
-      isCompleted: false,
+      isCompleted: true,
+      bookName: ""
     }
   ],
   filter: "all",
