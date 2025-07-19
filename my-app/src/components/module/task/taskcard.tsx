@@ -26,15 +26,10 @@ export default function TaskCard({ task, onView, onUpdate, onDelete, onCheck }: 
   };
 
   return (
-    <div className="relative w-[350px] rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-md p-4 flex flex-col gap-3 transition-colors">
+    <div className="relative w-[300px] rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-md p-4 flex flex-col gap-3 transition-colors">
       {/* Checkbox */}
       <div className="absolute top-3 right-3">
-        <input
-          type="checkbox"
-          checked={isChecked}
-          onChange={handleCheck}
-          className="cursor-pointer"
-        />
+        <input type="checkbox" checked={isChecked} onChange={handleCheck} />
       </div>
 
       {/* Content */}
