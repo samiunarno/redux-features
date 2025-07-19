@@ -43,7 +43,7 @@ export default function TaskCard({ task }: Iprops) {
           <Button 
             onClick = {() => dispatch(deleteTask(task.id))}
             variant = "link"
-            className = "p-0 text-red-500"
+            className = "p-0 text-red-500 cursor-pointer"
             >
 
             <Trash2 className="w-4 h-4 cursor-pointer" />
