@@ -1,79 +1,51 @@
-import { Eye, Pencil, Trash2 } from "lucide-react";
-import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import type { ITour } from "@/interface.types";
+import { cn } from "@/lib/utils";
+import { toggleCompleteState } from "@/redux/feature/tour/tourslice";
+import { useAppDispatch } from "@/redux/hook";
+import { Checkbox } from "@radix-ui/react-checkbox";
+import { Trash2 } from "lucide-react";
+import { CheckIcon } from "lucide-react";
 
-interface TaskCardProps {
-  task: {
-    id: string;
-    bookName: string;
-    writer: string;
-    publicationDate?: string;
-    description: string;
-    priority: "Low" | "Medium" | "High";
-  };
-  onView?: (id: string) => void;
-  onUpdate?: (id: string) => void;
-  onDelete?: (id: string) => void;
-  onCheck?: (id: string, checked: boolean) => void;
+interface Iprops {
+  task: ITour;
 }
 
-export default function TaskCard({ task, onView, onUpdate, onDelete, onCheck }: TaskCardProps) {
-  const [isChecked, setIsChecked] = useState(false);
-
-  const handleCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const checked = e.target.checked;
-    setIsChecked(checked);
-    onCheck?.(task.id, checked);
-  };
+export default function TaskCard({ task }: Iprops) {
+  const dispatch = useAppDispatch();
 
   return (
-    <div className="relative w-[300px] rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 shadow-md p-4 flex flex-col gap-3 transition-colors">
-      {/* Checkbox */}
-      <div className="absolute top-3 right-3">
-        <input type="checkbox" checked={isChecked} onChange={handleCheck} />
+    <div className="border px-5 py-4 rounded-md shadow-sm bg-white dark:bg-gray-800">
+      <div className="flex justify-between items-start mb-2">
+        <div className="flex items-center gap-2">
+          <div
+            className={cn("size-3 rounded-full", {
+              "bg-green-500": task.priority === "Low",
+              "bg-yellow-500": task.priority === "Medium",
+              "bg-red-500": task.priority === "High",
+            })}
+          />
+          <h1 className={cn("text-lg font-semibold", task.isCompleted ? "line-through text-gray-400" : "dark:text-white")}>
+            {task.title}
+          </h1>
+        </div>
+        <div className="flex gap-3 items-center">
+          <Checkbox
+            checked={task.isCompleted}
+            onCheckedChange={() => dispatch(toggleCompleteState(task.id))}
+            className="size-5 border border-gray-400 rounded-sm cursor-pointer flex items-center justify-center data-[state=checked]:bg-blue-600"
+          >
+            {task.isCompleted && <CheckIcon className="w-3 h-3 text-white" />}
+          </Checkbox>
+
+          <Button variant="link" className="p-0 text-red-500">
+            <Trash2 className="w-4 h-4" />
+          </Button>
+        </div>
       </div>
-
-      {/* Content */}
-      <div className="space-y-1">
-        <h2 className="text-lg font-semibold truncate text-gray-800 dark:text-gray-100">{task.bookName}</h2>
-        <p className="text-xs text-gray-500 dark:text-gray-400">ID: {task.id}</p>
-        <p className="text-sm text-gray-700 dark:text-gray-300">Writer: {task.writer}</p>
-
-        {task.publicationDate && (
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            Published on: {new Date(task.publicationDate).toDateString()}
-          </p>
-        )}
-
-        <p className="text-sm text-gray-700 dark:text-gray-300">{task.description}</p>
-
-        <span
-          className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
-            task.priority === "High"
-              ? "bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100"
-              : task.priority === "Medium"
-              ? "bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-100"
-              : "bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100"
-          }`}
-        >
-          {task.priority} Priority
-        </span>
-      </div>
-
-      {/* Icon Actions */}
-      <div className="flex justify-center items-center gap-6 pt-3 border-t mt-2 border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300">
-        <Eye
-          className="w-5 h-5 cursor-pointer hover:text-blue-600 dark:hover:text-blue-400 transition"
-          onClick={() => onView?.(task.id)}
-        />
-        <Pencil
-          className="w-5 h-5 cursor-pointer hover:text-yellow-600 dark:hover:text-yellow-400 transition"
-          onClick={() => onUpdate?.(task.id)}
-        />
-        <Trash2
-          className="w-5 h-5 cursor-pointer hover:text-red-600 dark:hover:text-red-400 transition"
-          onClick={() => onDelete?.(task.id)}
-        />
-      </div>
+      <p className={cn("text-sm", task.isCompleted ? "text-gray-400 line-through" : "text-gray-600 dark:text-gray-300")}>
+        {task.description}
+      </p>
     </div>
   );
 }
