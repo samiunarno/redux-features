@@ -19,14 +19,12 @@ export default function TaskCard({ task }: Iprops) {
         <div className="flex items-center gap-2">
           <div
             className={cn("size-3 rounded-full", {
-              "bg-green-500": task.priority === "Low",
+              "bg-red-500": task.priority === "Low",
               "bg-yellow-500": task.priority === "Medium",
-              "bg-red-500": task.priority === "High",
+              "bg-green-500": task.priority === "High",
             })}
           /> 
-          <h1 className="text-lg font-semibold dark:text-white break-all">
-            {task.title  || "Not Defined"}
-          </h1>
+          <h1 className={cn({"line-through" : task.isCompleted})}>{task.title}</h1>
         </div>
         <div className="flex gap-3 items-center">
           <Checkbox
