@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import type { ITour } from "@/interface.types";
 import { cn } from "@/lib/utils";
-import { toggleCompleteState } from "@/redux/feature/tour/tourslice";
+import { deleteTask, toggleCompleteState } from "@/redux/feature/tour/tourslice";
 import { useAppDispatch } from "@/redux/hook";
 import { Checkbox } from "@radix-ui/react-checkbox";
 import { Trash2, CheckIcon } from "lucide-react";
@@ -23,9 +23,9 @@ export default function TaskCard({ task }: Iprops) {
               "bg-yellow-500": task.priority === "Medium",
               "bg-red-500": task.priority === "High",
             })}
-          />
+          /> 
           <h1 className="text-lg font-semibold dark:text-white break-all">
-            {task.title || task.bookName || "Untitled"}
+            {task.title  || "Not Defined"}
           </h1>
         </div>
         <div className="flex gap-3 items-center">
@@ -40,8 +40,13 @@ export default function TaskCard({ task }: Iprops) {
             {task.isCompleted && <CheckIcon className="w-3 h-3 text-white" />}
           </Checkbox>
 
-          <Button variant="link" className="p-0 text-red-500">
-            <Trash2 className="w-4 h-4" />
+          <Button 
+            onClick = {() => dispatch(deleteTask(task.id))}
+            variant = "link"
+            className = "p-0 text-red-500"
+            >
+
+            <Trash2 className="w-4 h-4 cursor-pointer" />
           </Button>
         </div>
       </div>

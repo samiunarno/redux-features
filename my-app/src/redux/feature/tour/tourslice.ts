@@ -17,8 +17,8 @@ const initialState: InitialState = {
       description: "Create task management with Redux Toolkit",
       dueDate: "2025-07-20",
       priority: "High",
-      isCompleted: true,
-      bookName: ""
+      isCompleted: false,
+      
     },
     {
       id: "2",
@@ -26,8 +26,8 @@ const initialState: InitialState = {
       description: "Understand advanced TypeScript types",
       dueDate: "2025-07-25",
       priority: "Medium",
-      isCompleted: true,
-      bookName: ""
+      isCompleted: false,
+      
     }
   ],
   filter: "all",
@@ -41,15 +41,19 @@ const taskSlice = createSlice({
       state.tour.push(action.payload);
     },
 
-    toggleCompleteState(state, action: PayloadAction<string>) {
+    toggleCompleteState : (state, action: PayloadAction<string>) => {
       state.tour.forEach((task)=> task.id===action.payload
       ?task.isCompleted = !task.isCompleted : task)
+    },
+
+    deleteTask : (state, action: PayloadAction<string>) => {
+      state.tour =  state.tour.filter((task) => task.id !== action.payload)
     },
   },
 });
 
 // Actions export
-export const { addtour, toggleCompleteState } = taskSlice.actions;
+export const { addtour, toggleCompleteState , deleteTask } = taskSlice.actions;
 
 // Selector export
 export const selectTasks = (state: RootState) => state.todo.tour;

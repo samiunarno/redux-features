@@ -1,5 +1,5 @@
 export interface ITour {
-  bookName: string;
+  
   id: string;
   title: string;
   description: string;
