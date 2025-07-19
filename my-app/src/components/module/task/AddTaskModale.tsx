@@ -1,4 +1,5 @@
-// components/module/task/AddTaskModal.tsx
+"use client";
+
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import {
@@ -65,6 +66,7 @@ export function AddTaskModal() {
       publicationDate: data.publicationDate
         ? format(data.publicationDate, "dd/MM/yyyy")
         : "No date selected",
+      completed: false, // ✅ Required by ITour type
     };
 
     console.log("Submitted Data", newTask);
@@ -97,9 +99,7 @@ export function AddTaskModal() {
                     <Input
                       placeholder="Enter book name"
                       {...field}
-                      className="w-full rounded-md border border-gray-300 px-3 py-2
-                        focus:outline-none focus:ring-2 focus:ring-blue-500
-                        dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:ring-blue-400"
+                      className="w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-transparent dark:text-white dark:focus:ring-blue-400"
                     />
                   </FormControl>
                 </FormItem>
@@ -117,9 +117,7 @@ export function AddTaskModal() {
                     <Input
                       placeholder="Enter writer's name"
                       {...field}
-                      className="w-full rounded-md border border-gray-300 px-3 py-2
-                        focus:outline-none focus:ring-2 focus:ring-blue-500
-                        dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:ring-blue-400"
+                      className="w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-transparent dark:text-white dark:focus:ring-blue-400"
                     />
                   </FormControl>
                 </FormItem>
@@ -138,11 +136,7 @@ export function AddTaskModal() {
                       <div className="relative">
                         <Button
                           variant="outline"
-                          className={`w-full text-left pr-10 rounded-md border border-gray-300
-                            px-3 py-2
-                            focus:outline-none focus:ring-2 focus:ring-blue-500
-                            dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:ring-blue-400
-                            ${!field.value ? "text-gray-400" : "text-black dark:text-white"}`}
+                          className={`w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-transparent dark:text-white dark:focus:ring-blue-400 ${!field.value ? "text-gray-400" : "text-black dark:text-white"}`}
                           type="button"
                         >
                           {field.value ? format(field.value, "PPP") : "Select date"}
@@ -187,9 +181,7 @@ export function AddTaskModal() {
                   <FormControl>
                     <textarea
                       placeholder="Enter description"
-                      className="w-full rounded-md border border-gray-300 px-3 py-2 resize-none
-                        focus:outline-none focus:ring-2 focus:ring-blue-500
-                        dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:ring-blue-400"
+                      className="w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-transparent dark:text-white dark:focus:ring-blue-400"
                       rows={4}
                       {...field}
                     />
@@ -199,41 +191,47 @@ export function AddTaskModal() {
             />
 
             {/* Priority */}
-            <FormField
-              control={form.control}
-              name="priority"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Priority</FormLabel>
-                  <FormControl>
-                    <div className="relative">
-                      <select
-                        {...field}
-                        className="w-full appearance-none rounded-md border border-gray-300 bg-white px-3 py-2 pr-10 text-black
-                          focus:outline-none focus:ring-2 focus:ring-blue-500
-                          dark:border-gray-600 dark:bg-gray-500 dark:text-white dark:focus:ring-blue-400"
-                      >
-                        <option value="Low">Low</option>
-                        <option value="Medium">Medium</option>
-                        <option value="High">High</option>
-                      </select>
-                      <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center">
-                        <svg
-                          className="w-4 h-4 text-black dark:text-white"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth={2}
-                          viewBox="0 0 24 24"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                        </svg>
-                      </div>
-                    </div>
-                  </FormControl>
-                </FormItem>
-              )}
-            />
+   <FormField
+  control={form.control}
+  name="priority"
+  render={({ field }) => (
+    <FormItem>
+      <FormLabel>Priority</FormLabel>
+      <FormControl>
+        <div className="relative">
+          <select
+            {...field}
+            className={`appearance-none w-full rounded-md border border-gray-300 bg-transparent text-black px-3 py-2 text-sm 
+              focus:outline-none focus:ring-2 focus:ring-blue-500
+              dark:border-gray-700 dark:bg-black dark:text-white dark:focus:ring-blue-400
+              ${!field.value ? "text-gray-400 dark:text-gray-500" : ""}
+            `}
+          >
+            <option value="" disabled hidden>
+              Select priority
+            </option>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+          </select>
+          <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center">
+            <svg
+              className="w-4 h-4 text-black dark:text-white"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={2}
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </div>
+        </div>
+      </FormControl>
+    </FormItem>
+  )}
+/>
+
 
             {/* Footer */}
             <DialogFooter className="flex justify-center gap-x-4">
@@ -251,4 +249,4 @@ export function AddTaskModal() {
       </DialogContent>
     </Dialog>
   );
-}
+} 

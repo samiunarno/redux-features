@@ -3,7 +3,7 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "@/redux/store";
 
-// Tour item এর টাইপ
+
 export interface ITour {
   id: string;
   bookName: string;
@@ -14,20 +14,22 @@ export interface ITour {
   completed: boolean;
 }
 
-// স্টেট টাইপ
 interface InitialState {
   tour: ITour[];
+  filter : "all" | "high" | "medium" | "low"
 }
 
 const initialState: InitialState = {
-  tour: [],
+  tour: [
+  ],
+  filter : "all"
 };
 
 const taskSlice = createSlice({
   name: "tour",
   initialState,
   reducers: {
-    // নতুন ট্যুর যোগ করা
+
     addtour(state, action: PayloadAction<ITour>) {
       state.tour.push(action.payload);
     },
