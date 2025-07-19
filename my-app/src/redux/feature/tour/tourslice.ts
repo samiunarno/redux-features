@@ -50,7 +50,7 @@ const taskSlice = createSlice({
       state.tour =  state.tour.filter((task) => task.id !== action.payload)
     },
 
-    updateFilter : (state, action: PayloadAction<"low" | "medium" | "high">) => {
+    updateFilters : (state, action: PayloadAction<"low" | "medium" | "high">) => {
       state.filter = action.payload;
     },
 
