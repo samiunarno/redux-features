@@ -33,7 +33,6 @@ import { useDispatch } from "react-redux";
 import { addtour } from "@/redux/feature/tour/tourslice";
 import { v4 as uuidv4 } from "uuid";
 
-
 const formSchema = z.object({
   bookName: z.string().min(1, "Book name is required"),
   writer: z.string().min(1, "Writer name is required"),
@@ -59,22 +58,20 @@ export function AddTaskModal() {
     },
   });
 
-
   const onSubmit = (data: FormData) => {
-  const newTask = {
-    id: uuidv4(), 
-    ...data,
-    publicationDate: data.publicationDate
-      ? format(data.publicationDate, "dd/MM/yyyy")
-      : "No date selected",
-  }
+    const newTask = {
+      id: uuidv4(),
+      ...data,
+      publicationDate: data.publicationDate
+        ? format(data.publicationDate, "dd/MM/yyyy")
+        : "No date selected",
+    };
 
-  console.log("Submitted Data", newTask); 
+    console.log("Submitted Data", newTask);
 
-  dispatch(addtour(newTask));
-  form.reset();
-};
-
+    dispatch(addtour(newTask));
+    form.reset();
+  };
 
   return (
     <Dialog>
@@ -97,7 +94,13 @@ export function AddTaskModal() {
                 <FormItem>
                   <FormLabel>Book Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter book name" {...field} />
+                    <Input
+                      placeholder="Enter book name"
+                      {...field}
+                      className="w-full rounded-md border border-gray-300 px-3 py-2
+                        focus:outline-none focus:ring-2 focus:ring-blue-500
+                        dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:ring-blue-400"
+                    />
                   </FormControl>
                 </FormItem>
               )}
@@ -111,7 +114,13 @@ export function AddTaskModal() {
                 <FormItem>
                   <FormLabel>Writer</FormLabel>
                   <FormControl>
-                    <Input placeholder="Enter writer's name" {...field} />
+                    <Input
+                      placeholder="Enter writer's name"
+                      {...field}
+                      className="w-full rounded-md border border-gray-300 px-3 py-2
+                        focus:outline-none focus:ring-2 focus:ring-blue-500
+                        dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:ring-blue-400"
+                    />
                   </FormControl>
                 </FormItem>
               )}
@@ -129,16 +138,18 @@ export function AddTaskModal() {
                       <div className="relative">
                         <Button
                           variant="outline"
-                          className={`w-full justify-between text-left pr-10 ${
-                            !field.value ? "text-muted-foreground" : ""
-                          }`}
+                          className={`w-full text-left pr-10 rounded-md border border-gray-300
+                            px-3 py-2
+                            focus:outline-none focus:ring-2 focus:ring-blue-500
+                            dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:ring-blue-400
+                            ${!field.value ? "text-gray-400" : "text-black dark:text-white"}`}
                           type="button"
                         >
                           {field.value ? format(field.value, "PPP") : "Select date"}
                         </Button>
                         <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center">
                           <svg
-                            className="w-4 h-4 text-black"
+                            className="w-4 h-4 text-black dark:text-white"
                             fill="none"
                             stroke="currentColor"
                             strokeWidth={2}
@@ -176,7 +187,9 @@ export function AddTaskModal() {
                   <FormControl>
                     <textarea
                       placeholder="Enter description"
-                      className="w-full rounded-md border border-gray-300 px-3 py-2 resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full rounded-md border border-gray-300 px-3 py-2 resize-none
+                        focus:outline-none focus:ring-2 focus:ring-blue-500
+                        dark:border-gray-600 dark:bg-gray-800 dark:text-white dark:focus:ring-blue-400"
                       rows={4}
                       {...field}
                     />
@@ -196,7 +209,9 @@ export function AddTaskModal() {
                     <div className="relative">
                       <select
                         {...field}
-                        className="w-full appearance-none rounded-md border border-gray-300 px-3 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        className="w-full appearance-none rounded-md border border-gray-300 bg-white px-3 py-2 pr-10 text-black
+                          focus:outline-none focus:ring-2 focus:ring-blue-500
+                          dark:border-gray-600 dark:bg-gray-500 dark:text-white dark:focus:ring-blue-400"
                       >
                         <option value="Low">Low</option>
                         <option value="Medium">Medium</option>
@@ -204,7 +219,7 @@ export function AddTaskModal() {
                       </select>
                       <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center">
                         <svg
-                          className="w-4 h-4 text-black"
+                          className="w-4 h-4 text-black dark:text-white"
                           fill="none"
                           stroke="currentColor"
                           strokeWidth={2}
