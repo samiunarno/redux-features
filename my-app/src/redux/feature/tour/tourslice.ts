@@ -43,9 +43,6 @@ const initialState: InitialState = {
   filter: "all"
 };
 
-
-
-
 const taskSlice = createSlice({
   name: "tour",
   initialState,
@@ -55,13 +52,15 @@ const taskSlice = createSlice({
       state.tour.push(action.payload);
     },
 
-    toggleCompleteState(state, action: PayloadAction<string>) {
-      const id = action.payload;
-      const tour = state.tour.find((t) => t.id === id);
-      if (tour) {
-        tour.completed = !tour.completed;
-      }
-    },
+  toggleCompleteState(state, action: PayloadAction<string>) {
+    console.log(action);
+    state.tour.forEach((task) => {
+    if (task.id === action.payload) {
+      (task.completed = !task.completed)
+    }
+  });
+}
+
   },
 });
 
