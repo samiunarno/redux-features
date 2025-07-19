@@ -1,8 +1,6 @@
+// components/module/task/AddTaskModal.tsx
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
-import { v4 as uuidv4 } from "uuid";
-
 import {
   Dialog,
   DialogTrigger,
@@ -31,17 +29,17 @@ import {
 import { format } from "date-fns";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-
+import { useDispatch } from "react-redux";
 import { addtour } from "@/redux/feature/tour/tourslice";
+import { v4 as uuidv4 } from "uuid";
+
 
 const formSchema = z.object({
   bookName: z.string().min(1, "Book name is required"),
   writer: z.string().min(1, "Writer name is required"),
   publicationDate: z.date().optional(),
   description: z.string().min(1, "Description is required"),
-  priority: z.enum(["Low", "Medium", "High"], {
-    message: "Priority is required and must be Low, Medium, or High",
-  }),
+  priority: z.enum(["Low", "Medium", "High"]),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -61,24 +59,22 @@ export function AddTaskModal() {
     },
   });
 
+
   const onSubmit = (data: FormData) => {
-    // Format publicationDate to string or undefined
-    const formattedDate = data.publicationDate
-      ? format(data.publicationDate, "yyyy-MM-dd")
-      : undefined;
+  const newTask = {
+    id: uuidv4(), 
+    ...data,
+    publicationDate: data.publicationDate
+      ? format(data.publicationDate, "dd/MM/yyyy")
+      : "No date selected",
+  }
 
-    dispatch(
-      addtour({
-        ...data,
-        publicationDate: formattedDate,
-        id: uuidv4(),
-        completed: false
-      })
-    );
+  console.log("Submitted Data", newTask); 
 
-    form.reset();
-    setCalendarOpen(false);
-  };
+  dispatch(addtour(newTask));
+  form.reset();
+};
+
 
   return (
     <Dialog>
@@ -98,7 +94,7 @@ export function AddTaskModal() {
               control={form.control}
               name="bookName"
               render={({ field }) => (
-                <FormItem className="flex flex-col">
+                <FormItem>
                   <FormLabel>Book Name</FormLabel>
                   <FormControl>
                     <Input placeholder="Enter book name" {...field} />
@@ -224,13 +220,10 @@ export function AddTaskModal() {
               )}
             />
 
+            {/* Footer */}
             <DialogFooter className="flex justify-center gap-x-4">
               <DialogClose asChild>
-                <Button
-                  type="button"
-                  variant="outline"
-                  className="px-6 py-6 h-8 w-[100px] text-base mt-4"
-                >
+                <Button type="button" variant="outline" className="px-6 py-6 h-8 w-[100px] text-base mt-4">
                   Cancel
                 </Button>
               </DialogClose>
